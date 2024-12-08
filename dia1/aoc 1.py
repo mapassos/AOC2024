@@ -2,7 +2,7 @@ from collections import Counter
 
 def main():
 
-    with open('input.txt') as file:
+    with open('test.txt') as file:
         f_cont = file.read()
 
     left_list, right_list = [], [] 
@@ -15,6 +15,7 @@ def main():
     print(dist)
     
     similarity_score(left_list, right_list)
+    input('---')
 
 
 def similarity_score(list1, list2):

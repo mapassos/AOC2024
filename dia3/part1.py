@@ -1,15 +1,16 @@
 import re
 
 def main():
-    with open('input.txt') as f:
+    with open('test.txt') as f:
         txt = f.read()
 
     res = 0
-    for line in txt.splitlines():
-        filt = re.findall(r'mul\(\d+,\d+\)', line)
-        for op in filt:
-            res += eval(op)    
+
+    filt = re.findall(r'mul\(\d+,\d+\)', txt)
+    for op in filt:
+        res += eval(op)    
     print(res)
+    input('---')
     
 def mul(x, y):
     return x * y
