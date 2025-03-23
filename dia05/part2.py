@@ -1,12 +1,9 @@
 from collections import defaultdict
-import time
+import argparse
 
-def main():
-    with open('input.txt') as f:
-        f_read = f.read().split('\n\n')
-
-    rules = f_read[0]
-    updates = f_read[1]
+def apply_rule(page):
+    rules = page[0]
+    updates = page[1]
     rule_book = defaultdict(list)
 
     for rule in rules.splitlines():
@@ -26,8 +23,7 @@ def main():
     mid_vals = [int(cor[len(cor) // 2]) for cor in corrected]
     res = sum(mid_vals)
 
-    print(res)
-    input('---')
+    return res
 
 def check_update(section, rules):
     for rule in rules:
@@ -48,6 +44,21 @@ def correct_update(section, rules):
                     if rulepos > valpos:
                         section[rulepos], section[valpos] = section[valpos], section[rulepos]
     return section
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '-f', '--file',
+        default = 'test.txt',
+        help = 'Name of the file'
+    )
+
+    args = parser.parse_args()
+
+    with open(args.file) as f:
+        data = f.read().split('\n\n')
+
+    print(apply_rule(data))
 
 if __name__ == '__main__':
     main()

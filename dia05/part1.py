@@ -1,11 +1,10 @@
 from collections import defaultdict
+import argparse
 
-def main():
-    with open('test.txt') as f:
-        f_read = f.read().split('\n\n')
+def apply_rule(page):
 
-    rules = f_read[0]
-    updates = f_read[1]
+    rules = page[0]
+    updates = page[1]
     rule_book = defaultdict(list)
 
     for rule in rules.splitlines():
@@ -22,8 +21,8 @@ def main():
     #all lengths are odd
     mid_vals = [cor[len(cor) // 2] for cor in corrects]
     res = sum(mid_vals)
-    print(res)
-    input('---')
+
+    return res
 
 def check_update(section, rules):
     for rule in rules:
@@ -32,6 +31,21 @@ def check_update(section, rules):
             if pos > section.find(val) >= 0:
                 return False
     return True
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '-f', '--file',
+        default = 'test.txt',
+        help = 'Name of the file'
+    )
+
+    args = parser.parse_args()
+
+    with open(args.file) as f:
+        data = f.read().split('\n\n')
+    
+    print(apply_rule(data))
 
 if __name__ == '__main__':
     main()

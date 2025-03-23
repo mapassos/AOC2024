@@ -1,14 +1,19 @@
-def main():
-    with open('input.txt') as file:
-        f_cont = file.read()
+import argparse
 
+def count_safe_reports(data):
     count = 0
-    mat = [list(map(int, row.split())) for row in f_cont.splitlines()] 
+
+    mat = [list(map(int, row.split())) for row in data.splitlines()] 
     for arr in mat:
-        if any(all([increasing(arr[:i] + arr[i+1:]) or decreasing(arr[:i] + arr[i+1:]), dif_safety(arr[:i] + arr[i+1:])]) for i in range(len(arr))):
+        if any(
+            all(
+                [increasing(arr[:i] + arr[i+1:]) or decreasing(arr[:i] + arr[i+1:]), \
+                        dif_safety(arr[:i] + arr[i+1:])]
+            ) for i in range(len(arr))
+        ):
             count += 1
-    
-    print(count)
+   
+    return count
     
 def increasing(arr):
     dif = [arr[idx] - arr[idx - 1] for idx in range(1, len(arr)) if arr[idx] - arr[idx - 1] > 0]
@@ -30,6 +35,21 @@ def dif_safety(arr):
         return True
     else:
         return False
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '-f', '--file',
+        default = 'test.txt',
+        help = 'Name of the file'
+    )
+    
+    args = parser.parse_args() 
+
+    with open(args.file) as file:
+        f = file.read()
+    
+    print(count_safe_reports(f))
 
 if __name__ == '__main__':
     main()
